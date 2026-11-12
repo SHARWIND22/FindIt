@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Item | FindIt</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #4f46e5;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0 18px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Report {{ item_type|title }} Item</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Item Name</label>
+        <input type="text" name="item_name" placeholder="Example: Black Wallet" required>
+
+        <label>Category</label>
+        <select name="category" required>
+            <option value="">Select Category</option>
+            <option>Electronics</option>
+            <option>Accessories</option>
+            <option>Documents</option>
+            <option>Books</option>
+            <option>Clothing</option>
+            <option>Other</option>
+        </select>
+
+        <label>Description</label>
+        <textarea name="description" placeholder="Describe the item..." required></textarea>
+
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Example: Library" required>
+
+        <label>Date</label>
+        <input type="date" name="date_reported" required>
+
+        <label>Upload Image</label>
+        <input type="file" name="image" accept="image/png,image/jpeg,image/webp">
+
+        <label>Contact Email</label>
+        <input type="email" name="contact" placeholder="Your email" required>
+
+        <button type="submit">Submit Report</button>
+
+    </form>
+
+    <a href="/">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
