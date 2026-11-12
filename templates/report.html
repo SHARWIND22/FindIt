@@ -5,71 +5,407 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Item | FindIt</title>
 
+    <!-- Leaflet Map CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            padding: 30px;
+        }
+
+        :root {
+            --navy: #081326;
+            --navy-light: #101e36;
+            --orange: #f28c28;
+            --blue: #315efb;
+            --text: #f8fafc;
+            --muted: #a8b5ca;
+            --border: rgba(255,255,255,0.12);
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 80% 20%, rgba(242,140,40,0.12), transparent 30%),
+                radial-gradient(circle at 15% 80%, rgba(49,94,251,0.15), transparent 35%),
+                var(--navy);
+            color: var(--text);
+        }
+
+        nav {
+            height: 80px;
+            padding: 0 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5,14,30,0.95);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mite-logo {
+            width: 48px;
+            height: 58px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .brand-name span {
+            color: var(--orange);
+        }
+
+        .nav-label {
+            color: var(--muted);
+            font-size: 13px;
         }
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
+            max-width: 850px;
+            margin: 55px auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.055);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
-        h2 {
-            margin-bottom: 25px;
-            color: #4f46e5;
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--orange);
+            font-size: 17px;
+        }
+
+        label {
+            display: block;
+            margin: 19px 0 9px;
+            font-weight: bold;
+            font-size: 14px;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 13px;
-            margin: 10px 0 18px;
-            border: 1px solid #ddd;
-            border-radius: 7px;
-        }
-
-        button {
-            width: 100%;
             padding: 14px;
-            background: #4f46e5;
+            background: rgba(5,14,30,0.8);
             color: white;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
         }
 
-        label {
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(242,140,40,0.12);
+        }
+
+        input[type="file"] {
+            padding: 12px;
+        }
+
+        input[type="date"] {
+            color-scheme: dark;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select option {
+            background: var(--navy);
+            color: white;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.6;
+        }
+
+        /* CAMPUS MAP */
+
+        .map-container {
+            margin-top: 18px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            overflow: hidden;
+            background: #101e36;
+        }
+
+        #campusMap {
+            width: 100%;
+            height: 390px;
+            z-index: 1;
+        }
+
+        .map-heading {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .map-heading strong {
+            font-size: 14px;
+        }
+
+        .map-heading span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .map-note {
+            padding: 12px 15px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .map-location-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 15px;
+            background: rgba(255,255,255,0.035);
+        }
+
+        .location-chip {
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.06);
+            color: #dbeafe;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .location-chip:hover,
+        .location-chip.active {
+            background: var(--orange);
+            color: #111827;
+            border-color: var(--orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 28px;
+            background: linear-gradient(100deg,var(--orange),#ffad59);
+            color: #111827;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(242,140,40,0.25);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #8caaff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: var(--orange);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+        }
+
+        footer span {
+            color: var(--orange);
+        }
+
+        /* Custom map marker */
+
+        .campus-marker {
+            width: 34px;
+            height: 34px;
+            background: #f28c28;
+            border: 3px solid white;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .campus-marker span {
+            transform: rotate(45deg);
+            color: #111827;
+            font-size: 14px;
             font-weight: bold;
         }
 
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #4f46e5;
+        .leaflet-popup-content-wrapper,
+        .leaflet-popup-tip {
+            background: #101e36;
+            color: white;
+        }
+
+        .leaflet-popup-content {
+            font-size: 13px;
+        }
+
+        .leaflet-popup-content button {
+            margin-top: 8px;
+            padding: 7px 12px;
+            background: #f28c28;
+            color: #111827;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media(max-width:650px) {
+            nav {
+                padding: 0 5%;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .container {
+                margin: 25px 15px;
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            #campusMap {
+                height: 320px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<nav>
+    <div class="brand">
+        <img
+            src="{{ url_for('static', filename='images/mite-logo.png') }}"
+            alt="MITE Logo"
+            class="mite-logo"
+        >
+
+        <div class="brand-name">Find<span>It.</span></div>
+    </div>
+
+    <div class="nav-label">MITE · Smart Campus Lost & Found</div>
+</nav>
+
 <div class="container">
 
-    <h2>Report {{ item_type|title }} Item</h2>
+    <h1>Report {{ item_type|title }} Item</h1>
+
+    <p class="subtitle">
+        Help the campus community recover lost belongings.
+        Provide accurate details to improve AI matching.
+    </p>
 
     <form method="POST" enctype="multipart/form-data">
 
-        <label>Item Name</label>
-        <input type="text" name="item_name" placeholder="Example: Black Wallet" required>
+        <!-- STUDENT INFORMATION -->
 
-        <label>Category</label>
-        <select name="category" required>
+        <h3 class="section-title">Student Information</h3>
+
+        <label for="student_usn">USN</label>
+        <input
+            type="text"
+            id="student_usn"
+            name="student_usn"
+            placeholder="Example: 4MT24AI001"
+            required
+        >
+
+        <label for="branch">Branch</label>
+        <select id="branch" name="branch" required>
+            <option value="">Select Branch</option>
+            <option value="AIML">Artificial Intelligence & Machine Learning</option>
+            <option value="CSE">Computer Science Engineering</option>
+            <option value="ISE">Information Science Engineering</option>
+            <option value="ECE">Electronics & Communication Engineering</option>
+            <option value="EEE">Electrical & Electronics Engineering</option>
+            <option value="ME">Mechanical Engineering</option>
+            <option value="CIVIL">Civil Engineering</option>
+        </select>
+
+        <label for="year">Year</label>
+        <select id="year" name="year" required>
+            <option value="">Select Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+        </select>
+
+        <!-- ITEM INFORMATION -->
+
+        <h3 class="section-title">Item Information</h3>
+
+        <label for="item_name">Item Name</label>
+        <input
+            type="text"
+            id="item_name"
+            name="item_name"
+            placeholder="Example: Black Wallet"
+            required
+        >
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
             <option value="">Select Category</option>
             <option>Electronics</option>
             <option>Accessories</option>
@@ -79,28 +415,308 @@
             <option>Other</option>
         </select>
 
-        <label>Description</label>
-        <textarea name="description" placeholder="Describe the item..." required></textarea>
+        <label for="description">Description</label>
+        <textarea
+            id="description"
+            name="description"
+            placeholder="Describe the item, its colour, brand and other details..."
+            required
+        ></textarea>
 
-        <label>Location</label>
-        <input type="text" name="location" placeholder="Example: Library" required>
+        <!-- INTERACTIVE MAP -->
 
-        <label>Date</label>
-        <input type="date" name="date_reported" required>
+        <h3 class="section-title">Campus Location</h3>
 
-        <label>Upload Image</label>
-        <input type="file" name="image" accept="image/png,image/jpeg,image/webp">
+        <p class="hint">
+            Select a campus location using the map marker or the location buttons below.
+        </p>
 
-        <label>Contact Email</label>
-        <input type="email" name="contact" placeholder="Your email" required>
+        <div class="map-container">
 
-        <button type="submit">Submit Report</button>
+            <div class="map-heading">
+                <strong>📍 MITE Interactive Campus Map</strong>
+                <span>Click a marker to select a location</span>
+            </div>
+
+            <div id="campusMap"></div>
+
+            <div class="map-location-list" id="locationButtons"></div>
+
+            <div class="map-note">
+                Map markers are approximate campus-area positions, not verified building coordinates.
+                Map tiles are provided by OpenStreetMap.
+            </div>
+
+        </div>
+
+        <label for="location">Selected Location</label>
+
+        <select id="location" name="location" required>
+            <option value="">Choose a campus location</option>
+            <option>Main Block</option>
+            <option>PG Block</option>
+            <option>Boys Hostel</option>
+            <option>Girls Hostel</option>
+            <option>Boys Gym</option>
+            <option>Girls Gym</option>
+            <option>Food Court</option>
+            <option>Supermarket</option>
+            <option>Ground</option>
+            <option>Basketball Court</option>
+        </select>
+
+        <p class="hint" id="selectedLocationText">
+            No location selected yet.
+        </p>
+
+        <label for="date_reported">Date</label>
+        <input
+            type="date"
+            id="date_reported"
+            name="date_reported"
+            required
+        >
+
+        <label for="image">Upload Image</label>
+        <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/png,image/jpeg,image/webp"
+        >
+
+        <!-- CONTACT INFORMATION -->
+
+        <h3 class="section-title">Contact Information</h3>
+
+        <label for="contact">Contact Email</label>
+        <input
+            type="email"
+            id="contact"
+            name="contact"
+            placeholder="Your email address"
+            required
+        >
+
+        <button type="submit" class="submit-btn">
+            Submit Report →
+        </button>
 
     </form>
 
-    <a href="/">← Back to Dashboard</a>
+    <a href="/" class="back-link">← Back to Dashboard</a>
 
 </div>
+
+<footer>
+    Developed for <span>MITE</span> · FindIt Smart Campus Platform
+</footer>
+
+<!-- Leaflet Map JavaScript -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Set today's date
+    document.getElementById("date_reported").value =
+        new Date().toISOString().split("T")[0];
+
+    // Keep USN uppercase
+    document.getElementById("student_usn").addEventListener("input", function () {
+        this.value = this.value.toUpperCase();
+    });
+
+    /*
+       Approximate campus-area positions.
+       These are initial selectable marker positions and must be
+       adjusted against actual building positions before relying on them.
+    */
+
+    const campusLocations = [
+        {
+            name: "Main Block",
+            lat: 13.05075,
+            lng: 74.96640
+        },
+        {
+            name: "PG Block",
+            lat: 13.05105,
+            lng: 74.96690
+        },
+        {
+            name: "Boys Hostel",
+            lat: 13.05145,
+            lng: 74.96720
+        },
+        {
+            name: "Girls Hostel",
+            lat: 13.05015,
+            lng: 74.96730
+        },
+        {
+            name: "Boys Gym",
+            lat: 13.04995,
+            lng: 74.96680
+        },
+        {
+            name: "Girls Gym",
+            lat: 13.05010,
+            lng: 74.96620
+        },
+        {
+            name: "Food Court",
+            lat: 13.05060,
+            lng: 74.96665
+        },
+        {
+            name: "Supermarket",
+            lat: 13.05085,
+            lng: 74.96625
+        },
+        {
+            name: "Ground",
+            lat: 13.04955,
+            lng: 74.96645
+        },
+        {
+            name: "Basketball Court",
+            lat: 13.04975,
+            lng: 74.96700
+        }
+    ];
+
+    const locationSelect = document.getElementById("location");
+    const selectedText = document.getElementById("selectedLocationText");
+    const buttonContainer = document.getElementById("locationButtons");
+
+    // MITE campus area starting position
+    const campusCenter = [13.050621, 74.966475];
+
+    const map = L.map("campusMap").setView(campusCenter, 17);
+
+    // OpenStreetMap tiles
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 20
+    }).addTo(map);
+
+    let selectedMarker = null;
+    const markers = {};
+
+    // Custom marker icon
+    const campusIcon = L.divIcon({
+        className: "",
+        html: '<div class="campus-marker"><span>●</span></div>',
+        iconSize: [34, 34],
+        iconAnchor: [17, 34],
+        popupAnchor: [0, -32]
+    });
+
+    function selectLocation(location, marker) {
+
+        locationSelect.value = location.name;
+
+        selectedText.textContent =
+            "Selected location: " + location.name;
+
+        document.querySelectorAll(".location-chip").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.location === location.name
+            );
+        });
+
+        if (selectedMarker) {
+            selectedMarker.closePopup();
+        }
+
+        selectedMarker = marker || markers[location.name];
+
+        if (selectedMarker) {
+            selectedMarker.openPopup();
+        }
+    }
+
+    // Add campus markers
+    campusLocations.forEach(location => {
+
+        const marker = L.marker(
+            [location.lat, location.lng],
+            { icon: campusIcon }
+        ).addTo(map);
+
+        marker.bindPopup(`
+            <strong>${location.name}</strong><br>
+            <button type="button" class="popup-select">
+                Select this location
+            </button>
+        `);
+
+        marker.on("popupopen", function (event) {
+            const button = event.popup.getElement()
+                .querySelector(".popup-select");
+
+            button.addEventListener("click", function () {
+                selectLocation(location, marker);
+            });
+        });
+
+        marker.on("click", function () {
+            selectLocation(location, marker);
+        });
+
+        markers[location.name] = marker;
+
+        // Create location buttons
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "location-chip";
+        chip.textContent = location.name;
+        chip.dataset.location = location.name;
+
+        chip.addEventListener("click", function () {
+            map.flyTo([location.lat, location.lng], 19, {
+                duration: 0.7
+            });
+
+            selectLocation(location, marker);
+        });
+
+        buttonContainer.appendChild(chip);
+    });
+
+    // Selecting from dropdown also moves the map
+    locationSelect.addEventListener("change", function () {
+
+        const location = campusLocations.find(
+            item => item.name === this.value
+        );
+
+        if (!location) {
+            selectedText.textContent = "No location selected yet.";
+            document.querySelectorAll(".location-chip").forEach(button => {
+                button.classList.remove("active");
+            });
+            return;
+        }
+
+        const marker = markers[location.name];
+
+        map.flyTo([location.lat, location.lng], 19, {
+            duration: 0.7
+        });
+
+        selectLocation(location, marker);
+    });
+
+    // Correct map sizing after page load
+    setTimeout(function () {
+        map.invalidateSize();
+    }, 300);
+
+});
+</script>
 
 </body>
 </html>

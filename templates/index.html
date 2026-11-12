@@ -1,300 +1,4211 @@
 <!DOCTYPE html>
+
+
+
 <html lang="en">
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FindIt - Campus Lost & Found</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
 
-        body {
-            background: #f5f7fb;
-            color: #172033;
-        }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 22px 8%;
-            background: white;
-        }
+<meta charset="UTF-8">
 
-        .logo {
-            font-size: 27px;
-            font-weight: bold;
-            color: #4f46e5;
-        }
 
-        .hero {
-            text-align: center;
-            padding: 65px 20px;
-        }
 
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 18px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .hero p {
-            color: #64748b;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
 
-        .buttons a {
-            display: inline-block;
-            padding: 14px 25px;
-            margin: 8px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: white;
-            background: #4f46e5;
-        }
 
-        .buttons a:last-child {
-            background: #0f172a;
-        }
+<title>FindIt | MITE Campus</title>
 
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            padding: 20px;
-        }
 
-        .card {
-            background: white;
-            padding: 30px;
-            width: 220px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 3px 15px #0000000d;
-        }
 
-        .card h2 {
-            color: #4f46e5;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
 
-        .recent {
-            padding: 40px 8%;
-        }
 
-        .recent h2 {
-            margin-bottom: 20px;
-        }
 
-        .filters {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
 
-        .filters input,
-        .filters select {
-            flex: 1;
-            min-width: 160px;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
-            font-size: 14px;
-        }
+<style>
 
-        .filters button,
-        .clear-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 7px;
-            background: #4f46e5;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-        }
 
-        .clear-btn {
-            background: #64748b;
-        }
 
-        .items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
+* {
 
-        .item {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px #0000000d;
-        }
 
-        .item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
 
-        .item h3 {
-            margin: 12px 0;
-        }
+    margin: 0;
 
-        .item p {
-            margin: 8px 0;
-            color: #64748b;
-        }
 
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #e0e7ff;
-            color: #4338ca;
-            border-radius: 20px;
-            font-size: 12px;
-        }
 
-        @media(max-width: 600px) {
-            .hero h1 {
-                font-size: 30px;
-            }
+    padding: 0;
 
-            nav {
-                padding: 18px 5%;
-            }
-        }
-    </style>
+
+
+    box-sizing: border-box;
+
+
+
+    font-family: Arial, sans-serif;
+
+
+
+}
+
+
+
+
+
+
+
+:root {
+
+
+
+    --navy: #14243b;
+
+
+
+    --orange: #f28c28;
+
+
+
+    --white: #fff;
+
+
+
+    --muted: #a8b5ca;
+
+
+
+    --border: rgba(255,255,255,.12);
+
+
+
+}
+
+
+
+
+
+
+
+html {
+
+
+
+    scroll-behavior: smooth;
+
+
+
+}
+
+
+
+
+
+
+
+body {
+
+
+
+    background: #080f1e;
+
+
+
+    color: white;
+
+
+
+    overflow-x: hidden;
+
+
+
+    isolation: isolate;
+
+
+
+}
+
+
+
+
+
+
+
+/* BACKGROUND ANIMATION */
+
+
+
+.animated-background {
+
+
+
+    position: fixed;
+
+
+
+    inset: 0;
+
+
+
+    z-index: -1;
+
+
+
+    overflow: hidden;
+
+
+
+    background:
+
+
+
+        radial-gradient(ellipse at top left, #152c50 0%, transparent 55%),
+
+
+
+        radial-gradient(ellipse at bottom right, #241448 0%, transparent 55%),
+
+
+
+        #080f1e;
+
+
+
+    pointer-events: none;
+
+
+
+}
+
+
+
+
+
+
+
+.grid-background {
+
+
+
+    position: absolute;
+
+
+
+    inset: 0;
+
+
+
+    background-image:
+
+
+
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+
+
+
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+
+
+
+    background-size: 55px 55px;
+
+
+
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+
+
+
+}
+
+
+
+
+
+
+
+.glow {
+
+
+
+    position: absolute;
+
+
+
+    border-radius: 50%;
+
+
+
+    filter: blur(100px);
+
+
+
+    opacity: .35;
+
+
+
+    animation: floating 15s ease-in-out infinite alternate;
+
+
+
+}
+
+
+
+
+
+
+
+.glow-1 {
+
+
+
+    width: 400px;
+
+
+
+    height: 400px;
+
+
+
+    background: #2563eb;
+
+
+
+    top: -150px;
+
+
+
+    left: -100px;
+
+
+
+}
+
+
+
+
+
+
+
+.glow-2 {
+
+
+
+    width: 450px;
+
+
+
+    height: 450px;
+
+
+
+    background: #7c3aed;
+
+
+
+    right: -150px;
+
+
+
+    bottom: -100px;
+
+
+
+    animation-delay: 3s;
+
+
+
+}
+
+
+
+
+
+
+
+.glow-3 {
+
+
+
+    width: 300px;
+
+
+
+    height: 300px;
+
+
+
+    background: #0891b2;
+
+
+
+    top: 40%;
+
+
+
+    left: 40%;
+
+
+
+    animation-delay: 6s;
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes floating {
+
+
+
+    0% { transform: translate(0,0) scale(1); }
+
+
+
+    50% { transform: translate(100px,80px) scale(1.2); }
+
+
+
+    100% { transform: translate(-70px,120px) scale(.9); }
+
+
+
+}
+
+
+
+
+
+
+
+/* NAVIGATION */
+
+
+
+nav {
+
+
+
+    height: 85px;
+
+
+
+    padding: 0 8%;
+
+
+
+    display: flex;
+
+
+
+    justify-content: space-between;
+
+
+
+    align-items: center;
+
+
+
+    background: rgba(10,20,38,.75);
+
+
+
+    backdrop-filter: blur(18px);
+
+
+
+    border-bottom: 1px solid var(--border);
+
+
+
+    position: relative;
+
+
+
+    z-index: 10;
+
+
+
+}
+
+
+
+
+
+
+
+.brand {
+
+
+
+    display: flex;
+
+
+
+    align-items: center;
+
+
+
+    gap: 13px;
+
+
+
+}
+
+
+
+
+
+
+
+.mite-logo {
+
+
+
+    width: 55px;
+
+
+
+    height: 60px;
+
+
+
+    object-fit: contain;
+
+
+
+}
+
+
+
+
+
+
+
+.brand-name {
+
+
+
+    font-size: 25px;
+
+
+
+    font-weight: 800;
+
+
+
+    letter-spacing: -1px;
+
+
+
+}
+
+
+
+
+
+
+
+.brand-name span {
+
+
+
+    color: var(--orange);
+
+
+
+}
+
+
+
+
+
+
+
+.nav-label {
+
+
+
+    color: var(--muted);
+
+
+
+    font-size: 13px;
+
+
+
+}
+
+
+
+
+
+
+
+/* HERO SECTION */
+
+
+
+.hero {
+
+
+
+    padding: 105px 20px 90px;
+
+
+
+    text-align: center;
+
+
+
+    position: relative;
+
+
+
+    isolation: isolate;
+
+
+
+    overflow: hidden;
+
+
+
+}
+
+
+
+
+
+
+
+.hero::before {
+
+
+
+    content: "";
+
+
+
+    position: absolute;
+
+
+
+    inset: 0;
+
+
+
+    background:
+
+
+
+        linear-gradient(rgba(8,15,30,.68), rgba(8,15,30,.86)),
+
+
+
+        url("{{ url_for('static', filename='images/campus.png') }}");
+
+
+
+    background-size: cover;
+
+
+
+    background-position: center 45%;
+
+
+
+    z-index: -1;
+
+
+
+    animation: campusZoom 25s ease-in-out infinite alternate;
+
+
+
+    will-change: transform;
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes campusZoom {
+
+
+
+    from { transform: scale(1); }
+
+
+
+    to { transform: scale(1.08); }
+
+
+
+}
+
+
+
+
+
+
+
+.hero-tag {
+
+
+
+    display: inline-block;
+
+
+
+    background: rgba(242,140,40,.15);
+
+
+
+    color: #ffad59;
+
+
+
+    padding: 10px 18px;
+
+
+
+    border-radius: 30px;
+
+
+
+    font-size: 12px;
+
+
+
+    font-weight: bold;
+
+
+
+    margin-bottom: 28px;
+
+
+
+    letter-spacing: 1px;
+
+
+
+    border: 1px solid rgba(242,140,40,.3);
+
+
+
+    animation: fadeUp .8s ease both;
+
+
+
+}
+
+
+
+
+
+
+
+.hero h1 {
+
+
+
+    font-size: clamp(38px,5vw,64px);
+
+
+
+    letter-spacing: -2px;
+
+
+
+    margin-bottom: 22px;
+
+
+
+    line-height: 1.15;
+
+
+
+    animation: fadeUp .9s ease both;
+
+
+
+}
+
+
+
+
+
+
+
+.hero h1 span {
+
+
+
+    background: linear-gradient(90deg,#f28c28,#ffbd72,#f28c28);
+
+
+
+    background-size: 200% auto;
+
+
+
+    -webkit-background-clip: text;
+
+
+
+    background-clip: text;
+
+
+
+    color: transparent;
+
+
+
+    animation: gradientText 4s linear infinite;
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes gradientText {
+
+
+
+    to { background-position: 200% center; }
+
+
+
+}
+
+
+
+
+
+
+
+.hero p {
+
+
+
+    max-width: 570px;
+
+
+
+    margin: auto;
+
+
+
+    color: #d0d8e8;
+
+
+
+    line-height: 1.8;
+
+
+
+    font-size: 16px;
+
+
+
+    animation: fadeUp 1.1s ease both;
+
+
+
+}
+
+
+
+
+
+
+
+.buttons {
+
+
+
+    margin-top: 38px;
+
+
+
+    animation: fadeUp 1.3s ease both;
+
+
+
+}
+
+
+
+
+
+
+
+.buttons a {
+
+
+
+    display: inline-block;
+
+
+
+    padding: 15px 25px;
+
+
+
+    margin: 6px;
+
+
+
+    border-radius: 9px;
+
+
+
+    text-decoration: none;
+
+
+
+    font-size: 14px;
+
+
+
+    font-weight: bold;
+
+
+
+    transition: .3s;
+
+
+
+}
+
+
+
+
+
+
+
+.primary-btn {
+
+
+
+    background: linear-gradient(135deg,#f28c28,#ffad59);
+
+
+
+    color: white;
+
+
+
+}
+
+
+
+
+
+
+
+.secondary-btn {
+
+
+
+    background: linear-gradient(135deg,#2563eb,#4f46e5);
+
+
+
+    color: white;
+
+
+
+}
+
+
+
+
+
+
+
+.outline-btn {
+
+
+
+    background: rgba(255,255,255,.08);
+
+
+
+    color: white;
+
+
+
+    border: 1px solid rgba(255,255,255,.25);
+
+
+
+}
+
+
+
+
+
+
+
+.buttons a:hover {
+
+
+
+    transform: translateY(-5px);
+
+
+
+    box-shadow: 0 10px 30px rgba(37,130,235,.25);
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes fadeUp {
+
+
+
+    from {
+
+
+
+        opacity: 0;
+
+
+
+        transform: translateY(25px);
+
+
+
+    }
+
+
+
+    to {
+
+
+
+        opacity: 1;
+
+
+
+        transform: translateY(0);
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* SCROLL REVEAL ANIMATIONS */
+
+
+
+.scroll-reveal {
+
+
+
+    opacity: 0;
+
+
+
+    transform: translateY(45px);
+
+
+
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+
+
+
+}
+
+
+
+
+
+
+
+.scroll-reveal-left {
+
+
+
+    opacity: 0;
+
+
+
+    transform: translateX(-45px);
+
+
+
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+
+
+
+}
+
+
+
+
+
+
+
+.scroll-reveal-scale {
+
+
+
+    opacity: 0;
+
+
+
+    transform: scale(.88);
+
+
+
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+
+
+
+}
+
+
+
+
+
+
+
+.scroll-reveal.visible,
+
+
+
+.scroll-reveal-left.visible,
+
+
+
+.scroll-reveal-scale.visible {
+
+
+
+    opacity: 1;
+
+
+
+    transform: translate(0) scale(1);
+
+
+
+}
+
+
+
+
+
+
+
+/* STATISTICS */
+
+
+
+.stats {
+
+
+
+    display: flex;
+
+
+
+    justify-content: center;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    gap: 20px;
+
+
+
+    padding: 35px 8%;
+
+
+
+}
+
+
+
+
+
+
+
+.stat-card {
+
+
+
+    background: rgba(255,255,255,.055);
+
+
+
+    backdrop-filter: blur(15px);
+
+
+
+    width: 220px;
+
+
+
+    padding: 27px;
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 15px;
+
+
+
+    transition: .35s;
+
+
+
+}
+
+
+
+
+
+
+
+.stat-card:hover {
+
+
+
+    transform: translateY(-8px);
+
+
+
+    background: rgba(255,255,255,.09);
+
+
+
+    border-color: rgba(59,130,246,.5);
+
+
+
+}
+
+
+
+
+
+
+
+.stat-card h2 {
+
+
+
+    font-size: 38px;
+
+
+
+    margin-bottom: 8px;
+
+
+
+}
+
+
+
+
+
+
+
+.stat-card p {
+
+
+
+    color: var(--muted);
+
+
+
+    font-size: 13px;
+
+
+
+}
+
+
+
+
+
+
+
+.stat-line {
+
+
+
+    width: 38px;
+
+
+
+    height: 4px;
+
+
+
+    background: linear-gradient(90deg,#f28c28,#ffbd72);
+
+
+
+    border-radius: 5px;
+
+
+
+    margin-bottom: 18px;
+
+
+
+}
+
+
+
+
+
+
+
+/* UNIQUE FINDIT RECOVERY DONUT */
+
+.recovery-section{padding:30px 8% 70px}.recovery-card{position:relative;max-width:1050px;margin:0 auto;padding:34px;display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:35px;overflow:hidden;border-radius:24px;background:linear-gradient(135deg,rgba(18,35,62,.9),rgba(12,22,42,.8));border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(18px);box-shadow:0 25px 70px rgba(0,0,0,.24)}.recovery-copy,.donut-area{position:relative;z-index:1}.demo-tag{display:inline-flex;gap:8px;padding:7px 11px;border-radius:30px;color:#ffd08a;background:rgba(242,140,40,.12);border:1px solid rgba(242,140,40,.28);font-size:10px;font-weight:800;letter-spacing:1.3px}.demo-dot{width:7px;height:7px;border-radius:50%;background:#f28c28;box-shadow:0 0 12px #f28c28}.recovery-copy h2{margin:18px 0 10px;font-size:clamp(25px,3vw,36px)}.recovery-copy h2 span{color:#ffad59}.recovery-copy>p,.chart-note{color:#a8b5ca;line-height:1.8;font-size:13px}.recovery-total{margin-top:24px;display:flex;align-items:baseline;gap:9px}.recovery-total strong{font-size:34px}.recovery-total span{color:#a8b5ca;font-size:12px}.donut-area{display:flex;align-items:center;justify-content:center;gap:30px;flex-wrap:wrap}.donut-wrap{position:relative;width:230px;height:230px;display:grid;place-items:center;flex-shrink:0}.donut-glow{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(rgba(45,212,191,.22),rgba(59,130,246,.18),rgba(242,140,40,.15));filter:blur(22px)}.donut-chart{position:relative;width:210px;height:210px;border-radius:50%;background:conic-gradient(#2dd4bf 0deg 0deg,rgba(255,255,255,.1) 0deg 360deg);display:grid;place-items:center;transform:rotate(-90deg);box-shadow:0 0 35px rgba(45,212,191,.12);transition: background 1.5s}.donut-chart:before{content:"";position:absolute;inset:17px;border-radius:50%;background:linear-gradient(145deg,#101e35,#0b1528);border:1px solid rgba(255,255,255,.08)}.donut-center{position:absolute;z-index:2;text-align:center}.donut-percent{display:block;font-size:43px;font-weight:900;background:linear-gradient(135deg,#fff,#8fffea);-webkit-background-clip:text;background-clip:text;color:transparent}.donut-center small{display:block;margin-top:8px;color:#a8b5ca;font-size:10px;letter-spacing:1.6px;font-weight:800}.donut-legend{min-width:170px}.legend-row{display:flex;align-items:center;gap:10px;margin:15px 0;color:#dce6f5;font-size:13px}.legend-swatch{width:10px;height:10px;border-radius:3px;flex-shrink:0}.legend-row strong{margin-left:auto}.swatch-success{background:#2dd4bf;box-shadow:0 0 12px rgba(45,212,191,.5)}.swatch-open{background:#f28c28;box-shadow:0 0 12px rgba(242,140,40,.4)}.chart-note{margin-top:18px;font-size:10px}@media(max-width:760px){.recovery-section{padding:20px 5% 45px}.recovery-card{grid-template-columns:1fr;padding:25px 18px;text-align:center}.recovery-copy>p{margin:auto}.recovery-total{justify-content:center}.donut-area{gap:18px}.donut-wrap{width:205px;height:205px}.donut-chart{width:190px;height:190px}.donut-legend{width:100%;max-width:260px;text-align:left}}
+
+
+
+/* MAIN CONTENT */
+
+
+
+.main-content {
+
+
+
+    padding: 55px 8% 90px;
+
+
+
+}
+
+
+
+
+
+
+
+.section-heading {
+
+
+
+    margin-bottom: 22px;
+
+
+
+}
+
+
+
+
+
+
+
+.section-heading h2 {
+
+
+
+    font-size: 25px;
+
+
+
+    margin-bottom: 9px;
+
+
+
+}
+
+
+
+
+
+
+
+.section-heading p {
+
+
+
+    color: var(--muted);
+
+
+
+    font-size: 14px;
+
+
+
+}
+
+
+
+
+
+
+
+/* FILTERS */
+
+
+
+.filters {
+
+
+
+    background: rgba(255,255,255,.055);
+
+
+
+    backdrop-filter: blur(18px);
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 15px;
+
+
+
+    padding: 22px;
+
+
+
+    display: flex;
+
+
+
+    gap: 12px;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    margin-bottom: 45px;
+
+
+
+}
+
+
+
+
+
+
+
+.filters input,
+
+
+
+.filters select {
+
+
+
+    flex: 1;
+
+
+
+    min-width: 160px;
+
+
+
+    padding: 14px;
+
+
+
+    border: 1px solid rgba(255,255,255,.12);
+
+
+
+    border-radius: 8px;
+
+
+
+    outline: none;
+
+
+
+    background: rgba(8,15,30,.7);
+
+
+
+    color: white;
+
+
+
+    font-size: 13px;
+
+
+
+}
+
+
+
+
+
+
+
+.filters input::placeholder {
+
+
+
+    color: #8290a8;
+
+
+
+}
+
+
+
+
+
+
+
+.filters select option {
+
+
+
+    background: #14243b;
+
+
+
+    color: white;
+
+
+
+}
+
+
+
+
+
+
+
+.filters input:focus,
+
+
+
+.filters select:focus {
+
+
+
+    border-color: #3b82f6;
+
+
+
+    box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+
+
+
+}
+
+
+
+
+
+
+
+.search-btn,
+
+
+
+.clear-btn {
+
+
+
+    padding: 14px 23px;
+
+
+
+    border: none;
+
+
+
+    border-radius: 8px;
+
+
+
+    cursor: pointer;
+
+
+
+    text-decoration: none;
+
+
+
+    font-weight: bold;
+
+
+
+    font-size: 13px;
+
+
+
+    transition: .3s;
+
+
+
+}
+
+
+
+
+
+
+
+.search-btn {
+
+
+
+    background: linear-gradient(135deg,#2563eb,#4f46e5);
+
+
+
+    color: white;
+
+
+
+}
+
+
+
+
+
+
+
+.clear-btn {
+
+
+
+    background: rgba(255,255,255,.1);
+
+
+
+    color: white;
+
+
+
+    border: 1px solid var(--border);
+
+
+
+}
+
+
+
+
+
+
+
+.search-btn:hover,
+
+
+
+.clear-btn:hover {
+
+
+
+    transform: translateY(-3px);
+
+
+
+}
+
+
+
+
+
+
+
+/* ITEM CARDS */
+
+
+
+.items {
+
+
+
+    display: grid;
+
+
+
+    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+
+
+
+    gap: 22px;
+
+
+
+}
+
+
+
+
+
+
+
+.item-link {
+
+
+
+    display: block;
+
+
+
+    text-decoration: none;
+
+
+
+    color: inherit;
+
+
+
+    min-width: 0;
+
+
+
+}
+
+
+
+
+
+
+
+.item {
+
+
+
+    height: 100%;
+
+
+
+    background: rgba(255,255,255,.055);
+
+
+
+    backdrop-filter: blur(15px);
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 15px;
+
+
+
+    padding: 18px;
+
+
+
+    transition: .35s;
+
+
+
+    overflow: hidden;
+
+
+
+    cursor: pointer;
+
+
+
+}
+
+
+
+
+
+
+
+.item:hover {
+
+
+
+    transform: translateY(-7px);
+
+
+
+    border-color: rgba(242,140,40,.65);
+
+
+
+    background: rgba(255,255,255,.09);
+
+
+
+    box-shadow: 0 15px 35px rgba(0,0,0,.2);
+
+
+
+}
+
+
+
+
+
+
+
+.item img {
+
+
+
+    width: 100%;
+
+
+
+    height: 180px;
+
+
+
+    object-fit: cover;
+
+
+
+    border-radius: 10px;
+
+
+
+    margin-bottom: 15px;
+
+
+
+    transition: transform .4s;
+
+
+
+}
+
+
+
+
+
+
+
+.item:hover img {
+
+
+
+    transform: scale(1.04);
+
+
+
+}
+
+
+
+
+
+
+
+.badge {
+
+
+
+    display: inline-block;
+
+
+
+    padding: 7px 12px;
+
+
+
+    background: rgba(242,140,40,.15);
+
+
+
+    color: #ffad59;
+
+
+
+    border: 1px solid rgba(242,140,40,.2);
+
+
+
+    border-radius: 6px;
+
+
+
+    font-size: 10px;
+
+
+
+    font-weight: bold;
+
+
+
+    letter-spacing: .5px;
+
+
+
+}
+
+
+
+
+
+
+
+.item h3 {
+
+
+
+    margin: 13px 0 9px;
+
+
+
+    font-size: 18px;
+
+
+
+}
+
+
+
+
+
+
+
+.item p {
+
+
+
+    color: #a8b5ca;
+
+
+
+    font-size: 13px;
+
+
+
+    line-height: 1.7;
+
+
+
+    margin-top: 6px;
+
+
+
+}
+
+
+
+
+
+
+
+.card-hint {
+
+
+
+    color: #ffad59 !important;
+
+
+
+    font-size: 12px !important;
+
+
+
+    margin-top: 15px !important;
+
+
+
+}
+
+
+
+
+
+
+
+.empty-state {
+
+
+
+    background: rgba(255,255,255,.055);
+
+
+
+    border: 1px solid var(--border);
+
+
+
+    border-radius: 15px;
+
+
+
+    padding: 45px;
+
+
+
+    text-align: center;
+
+
+
+    color: var(--muted);
+
+
+
+    grid-column: 1/-1;
+
+
+
+}
+
+
+
+
+
+
+
+.empty-state h3 {
+
+
+
+    color: white;
+
+
+
+    margin-bottom: 10px;
+
+
+
+}
+
+
+
+
+
+
+
+/* FOOTER */
+
+
+
+.site-footer {
+
+
+
+    background: rgba(5,10,22,.9);
+
+
+
+    border-top: 1px solid var(--border);
+
+
+
+    padding: 45px 8% 20px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-content {
+
+
+
+    display: grid;
+
+
+
+    grid-template-columns: 2fr 1fr 1.5fr;
+
+
+
+    gap: 40px;
+
+
+
+    padding-bottom: 35px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-brand img {
+
+
+
+    width: 48px;
+
+
+
+    height: 48px;
+
+
+
+    object-fit: contain;
+
+
+
+    vertical-align: middle;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-brand h2 {
+
+
+
+    display: inline-block;
+
+
+
+    font-size: 25px;
+
+
+
+    margin-left: 8px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-brand h2 span {
+
+
+
+    color: var(--orange);
+
+
+
+}
+
+
+
+
+
+
+
+.footer-brand p,
+
+
+
+.footer-section p {
+
+
+
+    color: var(--muted);
+
+
+
+    font-size: 13px;
+
+
+
+    line-height: 1.8;
+
+
+
+    margin-top: 15px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-section h3 {
+
+
+
+    color: var(--orange);
+
+
+
+    margin-bottom: 18px;
+
+
+
+    font-size: 16px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-section a {
+
+
+
+    display: block;
+
+
+
+    color: var(--muted);
+
+
+
+    text-decoration: none;
+
+
+
+    font-size: 13px;
+
+
+
+    margin-bottom: 12px;
+
+
+
+    transition: .3s;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-section a:hover {
+
+
+
+    color: var(--orange);
+
+
+
+    transform: translateX(3px);
+
+
+
+}
+
+
+
+
+
+
+
+.footer-bottom {
+
+
+
+    border-top: 1px solid var(--border);
+
+
+
+    padding-top: 20px;
+
+
+
+    display: flex;
+
+
+
+    justify-content: space-between;
+
+
+
+    flex-wrap: wrap;
+
+
+
+    gap: 10px;
+
+
+
+}
+
+
+
+
+
+
+
+.footer-bottom p {
+
+
+
+    color: var(--muted);
+
+
+
+    font-size: 12px;
+
+
+
+}
+
+
+
+
+
+
+
+.flash-message {
+
+
+
+    margin: 20px auto;
+
+
+
+    max-width: 900px;
+
+
+
+    padding: 14px 20px;
+
+
+
+    border-radius: 8px;
+
+
+
+    background: rgba(34,197,94,.12);
+
+
+
+    border: 1px solid rgba(34,197,94,.3);
+
+
+
+    color: #86efac;
+
+
+
+}
+
+
+
+
+
+
+
+/* RESPONSIVE */
+
+
+
+@media(max-width:700px) {
+
+
+
+    nav {
+
+
+
+        padding: 12px 5%;
+
+
+
+        height: 75px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .mite-logo {
+
+
+
+        width: 45px;
+
+
+
+        height: 50px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .brand-name {
+
+
+
+        font-size: 22px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .nav-label {
+
+
+
+        display: none;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero {
+
+
+
+        padding: 75px 20px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero h1 {
+
+
+
+        font-size: 38px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero p {
+
+
+
+        font-size: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .stats {
+
+
+
+        padding: 20px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .stat-card {
+
+
+
+        width: 100%;
+
+
+
+    }
+
+
+
+
+
+
+
+    .main-content {
+
+
+
+        padding: 35px 5%;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filters {
+
+
+
+        flex-direction: column;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filters input,
+
+
+
+    .filters select,
+
+
+
+    .filters button,
+
+
+
+    .filters a {
+
+
+
+        width: 100%;
+
+
+
+    }
+
+
+
+
+
+
+
+    .items {
+
+
+
+        grid-template-columns: 1fr;
+
+
+
+    }
+
+
+
+
+
+
+
+    .footer-content {
+
+
+
+        grid-template-columns: 1fr;
+
+
+
+        gap: 30px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .footer-bottom {
+
+
+
+        flex-direction: column;
+
+
+
+        text-align: center;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* ACCESSIBILITY */
+
+
+
+@media(prefers-reduced-motion:reduce) {
+
+
+
+    *,
+
+
+
+    *::before,
+
+
+
+    *::after {
+
+
+
+        animation-duration: .01ms !important;
+
+
+
+        animation-iteration-count: 1 !important;
+
+
+
+        scroll-behavior: auto !important;
+
+
+
+        transition-duration: .01ms !important;
+
+
+
+    }
+
+
+
+
+
+
+
+    .scroll-reveal,
+
+
+
+    .scroll-reveal-left,
+
+
+
+    .scroll-reveal-scale {
+
+
+
+        opacity: 1;
+
+
+
+        transform: none;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+/* FINDIT SMART CAMPUS GUIDE */
+.findit-chat-launcher {
+    position: fixed; right: 26px; bottom: 25px; z-index: 1000;
+    width: 62px; height: 62px; border: 0; border-radius: 50%;
+    color: #fff; background: linear-gradient(135deg,#f28c28,#ffad59);
+    box-shadow: 0 12px 35px rgba(242,140,40,.38);
+    font-size: 25px; cursor: pointer; transition: .25s;
+}
+.findit-chat-launcher:hover { transform: translateY(-4px) scale(1.04); }
+.findit-chat-panel {
+    position: fixed; right: 26px; bottom: 100px; z-index: 1000;
+    width: min(370px, calc(100vw - 30px)); height: 510px; max-height: 70vh;
+    display: none; flex-direction: column; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 19px;
+    background: #101d32; box-shadow: 0 20px 65px rgba(0,0,0,.5);
+}
+.findit-chat-panel.open { display: flex; animation: chatPop .22s ease-out; }
+@keyframes chatPop { from {opacity:0;transform:translateY(12px) scale(.98)} to {opacity:1;transform:none} }
+.findit-chat-header {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:16px 17px; background:linear-gradient(120deg,#172d4c,#25345a);
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+.findit-chat-title { display:flex; align-items:center; gap:10px; }
+.findit-chat-avatar {
+    width:39px;height:39px;border-radius:13px;display:grid;place-items:center;
+    background:rgba(242,140,40,.18);font-size:20px;
+}
+.findit-chat-header h3 {font-size:15px;margin-bottom:4px}
+.findit-chat-header small {color:#a8b5ca;font-size:11px}
+.findit-chat-close {border:0;background:transparent;color:#cbd5e1;font-size:23px;cursor:pointer}
+.findit-chat-messages {flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.findit-chat-message {
+    max-width:88%;padding:11px 13px;border-radius:13px;font-size:13px;
+    line-height:1.6;white-space:pre-line;overflow-wrap:anywhere;
+}
+.findit-chat-message.bot {align-self:flex-start;background:#1d2d47;color:#e5edf9;border-bottom-left-radius:4px}
+.findit-chat-message.user {align-self:flex-end;background:#f28c28;color:#fff;border-bottom-right-radius:4px}
+.findit-chat-message a {color:#ffbd72;font-weight:700;text-decoration:underline}
+.findit-chat-quick {padding:0 14px 10px;display:flex;gap:7px;flex-wrap:wrap}
+.findit-chat-quick button {
+    border:1px solid rgba(242,140,40,.35);border-radius:20px;padding:7px 10px;
+    background:rgba(242,140,40,.09);color:#ffbd72;font-size:11px;cursor:pointer
+}
+.findit-chat-form {display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.1)}
+.findit-chat-form input {
+    flex:1;min-width:0;border:1px solid rgba(255,255,255,.13);border-radius:10px;
+    outline:none;padding:12px;background:#0a1425;color:#fff;font-size:13px
+}
+.findit-chat-form input:focus {border-color:#f28c28}
+.findit-chat-form button {
+    width:43px;border:0;border-radius:10px;background:#f28c28;color:#fff;
+    font-size:18px;cursor:pointer
+}
+.findit-chat-note {padding:0 14px 10px;color:#8290a8;font-size:10px;text-align:center}
+@media(max-width:500px) {
+    .findit-chat-launcher {right:17px;bottom:17px}
+    .findit-chat-panel {right:12px;bottom:88px;height:min(520px,72vh)}
+}
+
+</style>
+
+
+
 </head>
+
+
+
+
+
+
 
 <body>
 
+
+
+
+
+
+
+<!-- ANIMATED BACKGROUND -->
+
+
+
+<div class="animated-background">
+
+
+
+    <div class="grid-background"></div>
+
+
+
+    <div class="glow glow-1"></div>
+
+
+
+    <div class="glow glow-2"></div>
+
+
+
+    <div class="glow glow-3"></div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- NAVIGATION -->
+
+
+
 <nav>
-    <div class="logo">FindIt.</div>
-    <span>Smart Campus Lost & Found</span>
+
+
+
+    <div class="brand">
+
+
+
+        <img
+
+
+
+            src="{{ url_for('static', filename='images/mite-logo.png') }}"
+
+
+
+            alt="MITE Logo"
+
+
+
+            class="mite-logo"
+
+
+
+        >
+
+
+
+        <div class="brand-name">Find<span>It.</span></div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="nav-label">MITE · Smart Campus Lost & Found</div>
+
+
+
 </nav>
+
+
+
+
+
+
+
+<!-- HERO -->
+
+
 
 <section class="hero">
 
-    <h1>Lost Something? Let AI Find It.</h1>
+
+
+    <div class="hero-tag">✦ SMART CAMPUS PLATFORM</div>
+
+
+
+
+
+
+
+    <h1>
+
+
+
+        Lost something?<br>
+
+
+
+        Let AI <span>find it.</span>
+
+
+
+    </h1>
+
+
+
+
+
+
 
     <p>
-        A smarter way to report, discover and recover
-        lost belongings across your campus.
+
+
+
+        A smarter way to report lost belongings, discover found items
+
+
+
+        and reconnect students with what matters.
+
+
+
     </p>
 
+
+
+
+
+
+
     <div class="buttons">
-        <a href="/report/lost">Report Lost Item</a>
-        <a href="/report/found">Report Found Item</a>
-        <a href="/matches">🤖 View AI Matches</a>
+
+
+
+        <a href="/report/lost" class="primary-btn">+ Report Lost Item</a>
+
+
+
+        <a href="/report/found" class="secondary-btn">Report Found Item</a>
+
+
+
+        <a href="/matches" class="outline-btn">🤖 AI Matches</a>
+
+
+
     </div>
 
+
+
 </section>
+
+
+
+
+
+
+
+<!-- STATISTICS -->
+
+
 
 <section class="stats">
 
-    <div class="card">
-        <h2>{{ total_lost }}</h2>
+
+
+
+
+
+
+    <div class="stat-card scroll-reveal">
+
+
+
+        <div class="stat-line"></div>
+
+
+
+        <h2 class="count-number" data-count="{{ total_lost }}">0</h2>
+
+
+
         <p>Lost Items</p>
+
+
+
     </div>
 
-    <div class="card">
-        <h2>{{ total_found }}</h2>
+
+
+
+
+
+
+    <div class="stat-card scroll-reveal">
+
+
+
+        <div class="stat-line"></div>
+
+
+
+        <h2 class="count-number" data-count="{{ total_found }}">0</h2>
+
+
+
         <p>Found Items</p>
+
+
+
     </div>
 
-    <div class="card">
-        <h2>{{ total_returned }}</h2>
-        <p>Items Returned</p>
+
+
+
+
+
+
+    <div class="stat-card scroll-reveal">
+
+
+
+        <div class="stat-line"></div>
+
+
+
+        <h2 class="count-number" data-count="{{ total_returned }}">0</h2>
+
+
+
+        <p>Successfully Returned</p>
+
+
+
     </div>
+
+
+
+
+
+
 
 </section>
 
-<section class="recent">
 
-    <h2>🔎 Search Campus Items</h2>
 
-    <form method="GET" action="/" class="filters">
+
+
+
+
+<!-- UNIQUE RECOVERY SUCCESS DONUT: DEMO DATA -->
+
+<section class="recovery-section">
+
+ <div class="recovery-card scroll-reveal" id="recoveryCard">
+
+  <div class="recovery-copy"><span class="demo-tag"><span class="demo-dot"></span> DEMO STATISTICS</span><h2>Every return is a <span>win.</span></h2><p>A visual snapshot of FindIt recovery performance. Replace these sample figures with live database statistics when ready.</p><div class="recovery-total"><strong>100</strong><span>illustrative reports tracked</span></div></div>
+
+  <div class="donut-area"><div class="donut-wrap" role="img" aria-label="Illustrative recovery rate: 75 percent returned and 25 percent unresolved"><div class="donut-glow"></div><div class="donut-chart" id="recoveryDonut"></div><div class="donut-center"><span class="donut-percent" id="recoveryPercent">0%</span><small>RECOVERY RATE</small></div></div>
+
+   <div class="donut-legend"><div class="legend-row"><span class="legend-swatch swatch-success"></span><span>Successfully returned</span><strong>75%</strong></div><div class="legend-row"><span class="legend-swatch swatch-open"></span><span>Still unresolved</span><strong>25%</strong></div><p class="chart-note">Illustrative figures for demonstration only — not actual database results.</p></div></div>
+
+ </div>
+
+</section>
+
+
+
+<!-- MAIN CONTENT -->
+
+
+
+<section class="main-content">
+
+
+
+
+
+
+
+    <div class="section-heading scroll-reveal-left">
+
+
+
+        <h2>Find an Item</h2>
+
+
+
+        <p>Search through items reported across your campus.</p>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- SEARCH AND FILTER -->
+
+
+
+    <form method="GET" action="/" class="filters scroll-reveal">
+
+
+
+
+
+
 
         <input
+
+
+
             type="text"
+
+
+
             name="search"
-            placeholder="Search name, description or location..."
+
+
+
+            placeholder="Search name, description, location or USN..."
+
+
+
             value="{{ search_query }}"
+
+
+
         >
 
+
+
+
+
+
+
         <select name="type">
+
+
+
             <option value="">All Items</option>
-            <option value="lost" {% if selected_type == 'lost' %}selected{% endif %}>
+
+
+
+
+
+
+
+            <option value="lost"
+
+
+
+                {% if selected_type == 'lost' %}selected{% endif %}>
+
+
+
                 Lost Items
+
+
+
             </option>
-            <option value="found" {% if selected_type == 'found' %}selected{% endif %}>
+
+
+
+
+
+
+
+            <option value="found"
+
+
+
+                {% if selected_type == 'found' %}selected{% endif %}>
+
+
+
                 Found Items
+
+
+
             </option>
+
+
+
         </select>
+
+
+
+
+
+
 
         <select name="category">
+
+
+
             <option value="">All Categories</option>
 
+
+
+
+
+
+
             {% for category in categories %}
-            <option value="{{ category.category }}"
-                {% if selected_category == category.category %}selected{% endif %}>
-                {{ category.category }}
-            </option>
+
+
+
+                <option
+
+
+
+                    value="{{ category.category }}"
+
+
+
+                    {% if selected_category == category.category %}selected{% endif %}
+
+
+
+                >
+
+
+
+                    {{ category.category }}
+
+
+
+                </option>
+
+
+
             {% endfor %}
+
+
 
         </select>
 
-        <button type="submit">Search</button>
-        <a href="/" class="clear-btn">Clear Filters</a>
+
+
+
+
+
+
+        <button type="submit" class="search-btn">Search</button>
+
+
+
+        <a href="/" class="clear-btn">Clear</a>
+
+
+
+
+
+
 
     </form>
 
-    <h2>Recently Reported Items</h2>
 
-    <div class="items">
 
-        {% for item in recent_items %}
 
-        <div class="item">
 
-            {% if item.image_filename %}
-                <img src="{{ url_for('uploaded_file', filename=item.image_filename) }}" alt="Item image">
-            {% endif %}
 
-            <span class="badge">{{ item.item_type|upper }}</span>
 
-            <h3>{{ item.item_name }}</h3>
+    <div class="section-heading scroll-reveal-left">
 
-            <p>{{ item.description }}</p>
 
-            <p>📍 {{ item.location }}</p>
 
-            <p>📁 {{ item.category }}</p>
+        <h2>Recently Reported</h2>
 
-        </div>
 
-        {% else %}
 
-        <p>No matching items found.</p>
+        <p>
 
-        {% endfor %}
+
+
+            Latest lost and found reports from students.
+
+
+
+            Click a card to view full details.
+
+
+
+        </p>
+
+
 
     </div>
 
+
+
+
+
+
+
+    <!-- ITEM CARDS -->
+
+
+
+    <div class="items">
+
+
+
+
+
+
+
+        {% for item in recent_items %}
+
+
+
+
+
+
+
+            <a
+
+
+
+                href="{{ url_for('item_details', item_id=item.id) }}"
+
+
+
+                class="item-link scroll-reveal-scale"
+
+
+
+            >
+
+
+
+                <div class="item">
+
+
+
+
+
+
+
+                    {% if item.image_filename %}
+
+
+
+                        <img
+
+
+
+                            src="{{ url_for('uploaded_file', filename=item.image_filename) }}"
+
+
+
+                            alt="Item image"
+
+
+
+                            loading="lazy"
+
+
+
+                        >
+
+
+
+                    {% endif %}
+
+
+
+
+
+
+
+                    <span class="badge">{{ item.item_type|upper }}</span>
+
+
+
+
+
+
+
+                    <h3>{{ item.item_name }}</h3>
+
+
+
+
+
+
+
+                    <p>{{ item.description }}</p>
+
+
+
+
+
+
+
+                    <p>📍 {{ item.location }}</p>
+
+
+
+
+
+
+
+                    <p>Category: {{ item.category }}</p>
+
+
+
+
+
+
+
+                    <p class="card-hint">View full details →</p>
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </a>
+
+
+
+
+
+
+
+        {% else %}
+
+
+
+
+
+
+
+            <div class="empty-state scroll-reveal">
+
+
+
+                <h3>No items found</h3>
+
+
+
+                <p>Try another search or report a new item.</p>
+
+
+
+            </div>
+
+
+
+
+
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
 </section>
 
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+
+<footer class="site-footer">
+
+
+
+
+
+
+
+    <div class="footer-content">
+
+
+
+
+
+
+
+        <div class="footer-brand scroll-reveal">
+
+
+
+            <img
+
+
+
+                src="{{ url_for('static', filename='images/mite-logo.png') }}"
+
+
+
+                alt="MITE Logo"
+
+
+
+            >
+
+
+
+
+
+
+
+            <h2>Find<span>It.</span></h2>
+
+
+
+
+
+
+
+            <p>
+
+
+
+                A smart campus lost and found platform.
+
+
+
+                Helping students recover their belongings
+
+
+
+                through intelligent AI matching.
+
+
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="footer-section scroll-reveal">
+
+
+
+            <h3>Quick Links</h3>
+
+
+
+
+
+
+
+            <a href="/">Dashboard</a>
+
+
+
+            <a href="/report/lost">Report Lost</a>
+
+
+
+            <a href="/report/found">Report Found</a>
+
+
+
+            <a href="/matches">AI Matches</a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="footer-section scroll-reveal">
+
+
+
+            <h3>Contact Us</h3>
+
+
+
+
+
+
+
+            <p>Mangalore Institute of Technology & Engineering</p>
+
+
+
+            <p>Moodbidri, Karnataka</p>
+
+
+
+
+
+
+
+            <a href="mailto:mitesupport@gmail.com">
+
+
+
+                ✉ mitesupport@gmail.com
+
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="footer-bottom">
+
+
+
+        <p>© 2026 FindIt. All Rights Reserved.</p>
+
+
+
+        <p>Made for MITE · Smart Campus Innovation</p>
+
+
+
+    </div>
+
+
+
+
+
+
+
+</footer>
+
+
+
+
+
+
+
+
+<!-- FINDIT SMART CAMPUS GUIDE CHATBOT -->
+<button class="findit-chat-launcher" id="finditChatLauncher" aria-label="Open FindIt Guide" title="Ask FindIt Guide">✦</button>
+
+<section class="findit-chat-panel" id="finditChatPanel" aria-label="FindIt campus guide" aria-hidden="true">
+    <header class="findit-chat-header">
+        <div class="findit-chat-title">
+            <div class="findit-chat-avatar">🤖</div>
+            <div>
+                <h3>FindIt Guide</h3>
+                <small>Smart Campus Recovery Assistant</small>
+            </div>
+        </div>
+        <button class="findit-chat-close" id="finditChatClose" aria-label="Close chat">×</button>
+    </header>
+
+    <div class="findit-chat-messages" id="finditChatMessages" aria-live="polite">
+        <div class="findit-chat-message bot">Hi! 👋 I'm the FindIt Guide.\nI can help you report a lost item, report something you found, search campus reports, or understand the claim process.\n\nWhat would you like help with?</div>
+    </div>
+
+    <div class="findit-chat-quick">
+        <button type="button" data-question="I lost an item">I lost an item</button>
+        <button type="button" data-question="I found an item">I found an item</button>
+        <button type="button" data-question="How do I claim an item?">Claim an item</button>
+        <button type="button" data-question="How do I search for items?">Search items</button>
+    </div>
+
+    <form class="findit-chat-form" id="finditChatForm">
+        <input id="finditChatInput" type="text" placeholder="Type your question..." autocomplete="off" aria-label="Type your question">
+        <button type="submit" aria-label="Send message">➤</button>
+    </form>
+    <div class="findit-chat-note">Instant rule-based campus guide · No personal data needed</div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const launcher = document.getElementById("finditChatLauncher");
+    const panel = document.getElementById("finditChatPanel");
+    const closeButton = document.getElementById("finditChatClose");
+    const messages = document.getElementById("finditChatMessages");
+    const form = document.getElementById("finditChatForm");
+    const input = document.getElementById("finditChatInput");
+
+    function toggleChat(open) {
+        panel.classList.toggle("open", open);
+        panel.setAttribute("aria-hidden", String(!open));
+        launcher.setAttribute("aria-expanded", String(open));
+        if (open) input.focus();
+    }
+
+    launcher.addEventListener("click", () => toggleChat(!panel.classList.contains("open")));
+    closeButton.addEventListener("click", () => toggleChat(false));
+
+    function addMessage(text, sender) {
+        const bubble = document.createElement("div");
+        bubble.className = "findit-chat-message " + sender;
+        bubble.textContent = text;
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function answerFor(question) {
+        const q = question.toLowerCase();
+
+        if (/(lost|missing|can't find|cannot find)/.test(q)) {
+            return "Sorry that you've lost something. Here's what to do:\n1. Select “Report Lost Item” below.\n2. Enter the item name, category, description and last-seen location.\n3. Add the date and a clear photo if available.\n4. Submit the report.\n\nThen check AI Matches and search recent reports for a possible match.";
+        }
+        if (/(found|picked up|someone left|i have.*item)/.test(q)) {
+            return "Thanks for helping its owner! Please:\n1. Select “Report Found Item”.\n2. Describe the item and where/when you found it.\n3. Upload a photo if possible.\n4. Submit the report.\n\nKeep the item safe and hand it over only after the claimant's ownership is verified.";
+        }
+        if (/(claim|ownership|prove|proof|return)/.test(q)) {
+            return "To claim an item:\n1. Open the item from the dashboard or AI Matches.\n2. Choose the claim/request option on its details page.\n3. Enter your student details and contact information.\n4. Provide specific ownership proof (for example, a unique mark, contents, or other details not visible in the public photo).\n5. Submit and wait for admin review.\n\nDo not share passwords or OTPs as ownership proof.";
+        }
+        if (/(search|find item|matches|ai match)/.test(q)) {
+            return "Use the “Find an Item” search section on this dashboard. Search by item name, description, location or USN, and narrow results with the Lost/Found and category filters. You can also open “AI Matches” to see possible lost-and-found matches.";
+        }
+        if (/(status|notification|approved|rejected|pending)/.test(q)) {
+            return "After submitting a claim, check the notification/status feature available in FindIt. If you cannot see an update, contact the campus administrator and provide your claim details. A submitted request still needs admin review.";
+        }
+        if (/(where|location|place|campus)/.test(q)) {
+            return "When reporting an item, choose the closest campus location and add extra details in the description (for example, floor, classroom, desk or nearby landmark). This helps other students identify the place.";
+        }
+        if (/(hello|hi|hey|help)/.test(q)) {
+            return "Hello! 👋 I can guide you through lost reports, found reports, item searches and claim requests. Try one of the quick buttons below or type your question.";
+        }
+        return "I can help with four things:\n• Reporting a lost item\n• Reporting a found item\n• Searching reports and AI matches\n• Understanding item claims\n\nTry asking: “I lost my ID card” or “How do I claim an item?”";
+    }
+
+    function sendQuestion(question) {
+        const clean = question.trim();
+        if (!clean) return;
+        addMessage(clean, "user");
+        input.value = "";
+        window.setTimeout(() => addMessage(answerFor(clean), "bot"), 250);
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        sendQuestion(input.value);
+    });
+
+    panel.querySelectorAll("[data-question]").forEach(button => {
+        button.addEventListener("click", () => sendQuestion(button.dataset.question));
+    });
+});
+</script>
+
+<!-- SCROLL ANIMATIONS AND COUNTERS -->
+
+
+
+<script>
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+
+
+
+
+
+    // Reveal elements when they enter the screen
+
+
+
+    const revealElements = document.querySelectorAll(
+
+
+
+        ".scroll-reveal, .scroll-reveal-left, .scroll-reveal-scale"
+
+
+
+    );
+
+
+
+
+
+
+
+    const revealObserver = new IntersectionObserver(
+
+
+
+        function (entries, observer) {
+
+
+
+            entries.forEach(function (entry) {
+
+
+
+                if (entry.isIntersecting) {
+
+
+
+                    entry.target.classList.add("visible");
+
+
+
+                    observer.unobserve(entry.target);
+
+
+
+                }
+
+
+
+            });
+
+
+
+        },
+
+
+
+        {
+
+
+
+            threshold: 0.12,
+
+
+
+            rootMargin: "0px 0px -35px 0px"
+
+
+
+        }
+
+
+
+    );
+
+
+
+
+
+
+
+    revealElements.forEach(function (element, index) {
+
+
+
+        element.style.transitionDelay = (index % 4) * 100 + "ms";
+
+
+
+        revealObserver.observe(element);
+
+
+
+    });
+
+
+
+
+
+
+
+    // Animated statistics counter
+
+
+
+    const counters = document.querySelectorAll(".count-number");
+
+
+
+
+
+
+
+    const counterObserver = new IntersectionObserver(
+
+
+
+        function (entries, observer) {
+
+
+
+            entries.forEach(function (entry) {
+
+
+
+                if (!entry.isIntersecting) return;
+
+
+
+
+
+
+
+                const counter = entry.target;
+
+
+
+                const target = Number(counter.dataset.count) || 0;
+
+
+
+                const duration = 1400;
+
+
+
+                const startTime = performance.now();
+
+
+
+
+
+
+
+                function updateCounter(currentTime) {
+
+
+
+                    const progress = Math.min(
+
+
+
+                        (currentTime - startTime) / duration,
+
+
+
+                        1
+
+
+
+                    );
+
+
+
+
+
+
+
+                    const easedProgress = 1 - Math.pow(1 - progress, 4);
+
+
+
+                    counter.textContent = Math.floor(
+
+
+
+                        target * easedProgress
+
+
+
+                    );
+
+
+
+
+
+
+
+                    if (progress < 1) {
+
+
+
+                        requestAnimationFrame(updateCounter);
+
+
+
+                    } else {
+
+
+
+                        counter.textContent = target;
+
+
+
+                    }
+
+
+
+                }
+
+
+
+
+
+
+
+                requestAnimationFrame(updateCounter);
+
+
+
+                observer.unobserve(counter);
+
+
+
+            });
+
+
+
+        },
+
+
+
+        { threshold: 0.5 }
+
+
+
+    );
+
+
+
+
+
+
+
+    counters.forEach(function (counter) {
+
+
+
+        counterObserver.observe(counter);
+
+
+
+    });
+
+
+
+
+
+
+
+        // Animate the recovery donut when it scrolls into view.
+
+    const recoveryCard = document.getElementById("recoveryCard");
+
+    const recoveryDonut = document.getElementById("recoveryDonut");
+
+    const recoveryPercent = document.getElementById("recoveryPercent");
+
+    if (recoveryCard && recoveryDonut && recoveryPercent) {
+
+      let played = false;
+
+      const recoveryObserver = new IntersectionObserver((entries, observer) => {
+
+        entries.forEach(entry => {
+
+          if (!entry.isIntersecting || played) return;
+
+          played = true;
+
+          const start = performance.now();
+
+          function animate(now) {
+
+            const progress = Math.min((now - start) / 1500, 1);
+
+            const eased = 1 - Math.pow(1 - progress, 4);
+
+            const value = Math.round(75 * eased);
+
+            const angle = value * 3.6;
+
+            recoveryDonut.style.background = `conic-gradient(#2dd4bf 0deg ${angle}deg, #f28c28 ${angle}deg 360deg)`;
+
+            recoveryPercent.textContent = value + "%";
+
+            if (progress < 1) requestAnimationFrame(animate);
+
+          }
+
+          requestAnimationFrame(animate);
+
+          observer.unobserve(entry.target);
+
+        });
+
+      }, {threshold:0.25});
+
+      recoveryObserver.observe(recoveryCard);
+
+    }
+
+
+
+// Subtle hero parallax effect
+
+
+
+    const hero = document.querySelector(".hero");
+
+
+
+
+
+
+
+    if (hero && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+
+
+
+        window.addEventListener("scroll", function () {
+
+
+
+            const scrollPosition = window.scrollY;
+
+
+
+
+
+
+
+            if (scrollPosition < hero.offsetHeight) {
+
+
+
+                hero.style.backgroundPositionY =
+
+
+
+                    (scrollPosition * 0.15) + "px";
+
+
+
+            }
+
+
+
+        }, { passive: true });
+
+
+
+    }
+
+
+
+
+
+
+
+});
+
+
+
+</script>
+
+
+
+
+
+
+
 </body>
+
+
+
 </html>

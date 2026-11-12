@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Item Details | FindIt</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 80% 15%,#342044 0,transparent 32%),radial-gradient(circle at 10% 80%,#142e55 0,transparent 35%),#081326;color:#f8fafc}
+nav{padding:18px 7%;display:flex;justify-content:space-between;align-items:center;background:#050e1e;border-bottom:1px solid #ffffff20}
+.brand{font-size:25px;font-weight:bold}.brand span{color:#f28c28}nav a{color:#f6a34e;text-decoration:none}
+.container{max-width:850px;margin:45px auto;padding:32px;background:#ffffff0b;border:1px solid #ffffff20;border-radius:18px;box-shadow:0 20px 60px #0005}
+.badge{display:inline-block;padding:7px 12px;border-radius:30px;background:#f28c2820;color:#ffb568;font-size:12px;font-weight:bold}
+h1{font-size:32px;margin:18px 0}.muted{color:#a8b5ca;line-height:1.7}
+.item-image{width:100%;max-height:380px;object-fit:contain;background:#ffffff08;border-radius:12px;margin:22px 0}
+h2{font-size:18px;margin:28px 0 14px;color:#ffad59}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.detail{padding:16px;background:#ffffff0a;border:1px solid #ffffff15;border-radius:10px}
+.detail small{color:#a8b5ca}.detail p{margin-top:8px;overflow-wrap:anywhere}
+.btn{display:inline-block;margin-top:22px;padding:13px 18px;border:0;border-radius:8px;background:#f28c28;color:#111827;font-weight:bold;text-decoration:none;cursor:pointer}
+.btn.secondary{background:#ffffff15;color:white;margin-left:8px}
+.flash{padding:12px;margin-bottom:15px;border-radius:8px;background:#16a34a25;color:#86efac}
+.flash.error{background:#dc262625;color:#fca5a5}
+footer{text-align:center;color:#8290a5;padding:30px}
+@media(max-width:600px){.container{margin:20px 12px;padding:22px}h1{font-size:26px}}
+</style></head>
+<body>
+<nav><div class="brand">Find<span>It.</span></div><a href="{{ url_for('home') }}">← Dashboard</a></nav>
+{% if item %}
+<main class="container">
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+<span class="badge">{{ item.item_type|upper }} ITEM · {{ item.status|upper }}</span>
+<h1>{{ item.item_name }}</h1>
+{% if item.image_filename %}<img class="item-image" src="{{ url_for('uploaded_file', filename=item.image_filename) }}" alt="{{ item.item_name }}">{% endif %}
+<p class="muted">{{ item.description }}</p>
+<h2>Item Information</h2><div class="grid">
+<div class="detail"><small>Category</small><p>{{ item.category }}</p></div>
+<div class="detail"><small>Location</small><p>📍 {{ item.location }}</p></div>
+<div class="detail"><small>Date Reported</small><p>{{ item.date_reported or 'Not provided' }}</p></div>
+<div class="detail"><small>Status</small><p>{{ item.status|title }}</p></div></div>
+<h2>Student Information</h2><div class="grid">
+<div class="detail"><small>USN</small><p>{{ item.student_usn or 'Not provided' }}</p></div>
+<div class="detail"><small>Branch</small><p>{{ item.branch or 'Not provided' }}</p></div>
+<div class="detail"><small>Year</small><p>{{ item.year or 'Not provided' }}</p></div></div>
+<h2>Contact Information</h2><div class="detail"><small>Reporter contact</small><p>{{ item.contact }}</p></div>
+{% if item.item_type == 'found' and item.status == 'open' %}
+<a class="btn" href="{{ url_for('claim_item', item_id=item.id) }}">Claim This Item →</a>
+{% elif item.item_type == 'found' %}<p class="muted">This item is not currently accepting claims.</p>{% endif %}
+<a class="btn secondary" href="{{ url_for('home') }}">Back to Dashboard</a>
+</main>
+{% else %}<main class="container"><h1>Item not found</h1><a class="btn" href="{{ url_for('home') }}">Dashboard</a></main>{% endif %}
+<footer>Developed for MITE · FindIt Smart Campus Platform</footer>
+</body></html>
