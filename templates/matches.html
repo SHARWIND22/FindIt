@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt - AI Matches</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+            padding: 25px 4%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        header a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h2 {
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .match-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px #0000000d;
+        }
+
+        .score {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score h1 {
+            color: #16a34a;
+            font-size: 34px;
+        }
+
+        .score p {
+            color: #64748b;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item h3 {
+            margin-bottom: 12px;
+        }
+
+        .item p {
+            margin: 10px 0;
+            color: #64748b;
+            overflow-wrap: anywhere;
+        }
+
+        .item img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .explanation {
+            background: #ecfdf5;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 18px;
+        }
+
+        .explanation h3 {
+            color: #047857;
+            margin-bottom: 10px;
+        }
+
+        .explanation p {
+            margin: 6px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #d97706;
+        }
+
+        .returned {
+            color: #16a34a;
+        }
+
+        .return-btn {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .return-btn:hover {
+            background: #15803d;
+        }
+
+        .empty {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+        }
+
+        @media(max-width: 700px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">FindIt.</div>
+    <a href="/">← Back to Dashboard</a>
+</header>
+
+<section class="heading">
+    <h2>🤖 AI Detected Matches</h2>
+    <p>Our intelligent matching engine identifies potentially matching lost and found items.</p>
+</section>
+
+{% for match in matches %}
+
+<div class="match-card">
+
+    <div class="score">
+        <h1>{{ "%.1f"|format(match.similarity_score) }}%</h1>
+        <p>AI Similarity Score</p>
+    </div>
+
+    <div class="comparison">
+
+        <div class="item">
+            <span class="badge">LOST ITEM</span>
+
+            {% if match.lost_image %}
+                <img src="{{ url_for('uploaded_file', filename=match.lost_image) }}" alt="Lost item">
+            {% endif %}
+
+            <h3>{{ match.lost_name }}</h3>
+            <p>{{ match.lost_description }}</p>
+            <p>📍 {{ match.lost_location }}</p>
+            <p>📧 {{ match.lost_contact }}</p>
+        </div>
+
+        <div class="item">
+            <span class="badge">FOUND ITEM</span>
+
+            {% if match.found_image %}
+                <img src="{{ url_for('uploaded_file', filename=match.found_image) }}" alt="Found item">
+            {% endif %}
+
+            <h3>{{ match.found_name }}</h3>
+            <p>{{ match.found_description }}</p>
+            <p>📍 {{ match.found_location }}</p>
+            <p>📧 {{ match.found_contact }}</p>
+        </div>
+
+    </div>
+
+    <div class="explanation">
+        <h3>🎯 Why AI Matched These Items</h3>
+
+        <p>{{ match.explanation }}</p>
+
+        {% if match.match_status == 'returned' %}
+
+            <p class="status returned">Status: Successfully Returned ✓</p>
+
+        {% else %}
+
+            <p class="status pending">Status: Pending</p>
+
+            <form method="POST"
+                  action="{{ url_for('mark_returned', match_id=match.match_id) }}"
+                  onsubmit="return confirm('Confirm that this item has been returned?');">
+
+                <button type="submit" class="return-btn">
+                    ✓ Mark as Returned
+                </button>
+
+            </form>
+
+        {% endif %}
+
+        <p>⚠️ Potential match only. Verify ownership before returning the item.</p>
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="empty">
+    <h3>No AI Matches Found Yet</h3>
+    <p>Report lost and found items to let AI discover potential matches.</p>
+    <br>
+    <a href="/">Back to Dashboard</a>
+</div>
+
+{% endfor %}
+
+</body>
+</html>

@@ -34,11 +34,11 @@
 
         .hero {
             text-align: center;
-            padding: 75px 20px;
+            padding: 65px 20px;
         }
 
         .hero h1 {
-            font-size: 46px;
+            font-size: 42px;
             margin-bottom: 18px;
         }
 
@@ -86,11 +86,47 @@
         }
 
         .recent {
-            padding: 50px 8%;
+            padding: 40px 8%;
         }
 
         .recent h2 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        .filters {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            flex: 1;
+            min-width: 160px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .filters button,
+        .clear-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .clear-btn {
+            background: #64748b;
         }
 
         .items {
@@ -103,6 +139,7 @@
             background: white;
             padding: 22px;
             border-radius: 12px;
+            box-shadow: 0 3px 15px #0000000d;
         }
 
         .item img {
@@ -116,6 +153,11 @@
             margin: 12px 0;
         }
 
+        .item p {
+            margin: 8px 0;
+            color: #64748b;
+        }
+
         .badge {
             display: inline-block;
             padding: 5px 10px;
@@ -123,6 +165,16 @@
             color: #4338ca;
             border-radius: 20px;
             font-size: 12px;
+        }
+
+        @media(max-width: 600px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            nav {
+                padding: 18px 5%;
+            }
         }
     </style>
 </head>
@@ -146,6 +198,7 @@
     <div class="buttons">
         <a href="/report/lost">Report Lost Item</a>
         <a href="/report/found">Report Found Item</a>
+        <a href="/matches">🤖 View AI Matches</a>
     </div>
 
 </section>
@@ -171,6 +224,44 @@
 
 <section class="recent">
 
+    <h2>🔎 Search Campus Items</h2>
+
+    <form method="GET" action="/" class="filters">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search name, description or location..."
+            value="{{ search_query }}"
+        >
+
+        <select name="type">
+            <option value="">All Items</option>
+            <option value="lost" {% if selected_type == 'lost' %}selected{% endif %}>
+                Lost Items
+            </option>
+            <option value="found" {% if selected_type == 'found' %}selected{% endif %}>
+                Found Items
+            </option>
+        </select>
+
+        <select name="category">
+            <option value="">All Categories</option>
+
+            {% for category in categories %}
+            <option value="{{ category.category }}"
+                {% if selected_category == category.category %}selected{% endif %}>
+                {{ category.category }}
+            </option>
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">Search</button>
+        <a href="/" class="clear-btn">Clear Filters</a>
+
+    </form>
+
     <h2>Recently Reported Items</h2>
 
     <div class="items">
@@ -180,7 +271,7 @@
         <div class="item">
 
             {% if item.image_filename %}
-                <img src="{{ url_for('uploaded_file', filename=item.image_filename) }}">
+                <img src="{{ url_for('uploaded_file', filename=item.image_filename) }}" alt="Item image">
             {% endif %}
 
             <span class="badge">{{ item.item_type|upper }}</span>
@@ -191,11 +282,13 @@
 
             <p>📍 {{ item.location }}</p>
 
+            <p>📁 {{ item.category }}</p>
+
         </div>
 
         {% else %}
 
-        <p>No items reported yet. Be the first to report one!</p>
+        <p>No matching items found.</p>
 
         {% endfor %}
 

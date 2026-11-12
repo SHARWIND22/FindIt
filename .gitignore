@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+finditenv/
+.env
+
+# Database
+database/*.db
+
+# Uploaded files
+uploads/*
+
+# IDE
+.vscode/
+.idea/
